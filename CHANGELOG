@@ -245,6 +245,11 @@ HISTORY
 
   ++ Bugfixes:
 
+  2011-03-27: Simon Goldschmidt
+  * tcp_out.c: Fixed bug #32820 (Outgoing TCP connections created before route
+    is present never times out) by starting retransmission timer before checking
+    route.
+
   2011-01-24: Simon Goldschmidt
   * sockets.c: Fixed bug #31741: lwip_select seems to have threading problems
 
