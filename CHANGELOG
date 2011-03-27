@@ -246,6 +246,10 @@ HISTORY
   ++ Bugfixes:
 
   2011-03-27: Simon Goldschmidt
+  * tcp.c: Fixed bug #32926 (TCP_RMV(&tcp_bound_pcbs) is called on unbound tcp
+    pcbs) by checking if the pcb was bound (local_port != 0).
+
+  2011-03-27: Simon Goldschmidt
   * tcp_out.c: Fixed bug #32820 (Outgoing TCP connections created before route
     is present never times out) by starting retransmission timer before checking
     route.
