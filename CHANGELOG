@@ -20,6 +20,9 @@ HISTORY
   * netif.c, etharp.h/.c: fixed bug #34684: Clear the arp table cache when
     netif is brought down
 
+  2011-08-24: Simon Goldschmidt
+  * netif.c: fixed bug #34121 netif_add/netif_set_ipaddr fail on NULL ipaddr
+
   ++ New features:
 
   2010-11-21: Simon Goldschmidt
