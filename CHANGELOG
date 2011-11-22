@@ -11,6 +11,12 @@ HISTORY
 
   * [Enter new changes just after this line - do not remove this line]
 
+ ++ Bugfixes:
+
+  2011-11-22: Simon Goldschmidt
+  * netif.c, etharp.h/.c: fixed bug #34684: Clear the arp table cache when
+    netif is brought down
+
   ++ New features:
 
   2010-11-21: Simon Goldschmidt
