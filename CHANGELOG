@@ -13,6 +13,9 @@ HISTORY
 
  ++ Bugfixes:
 
+  2014-02-22: Simon Goldschmidt (patch by Amir Shalem)
+  * etharp.c, opt.h: fixed bug #34681 Limit ARP queue length by ARP_QUEUE_LEN (=3)
+
   2011-11-22: Simon Goldschmidt
   * netif.c, etharp.h/.c: fixed bug #34684: Clear the arp table cache when
     netif is brought down
