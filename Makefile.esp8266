@@ -1,0 +1,64 @@
+CC = xtensa-lx106-elf-gcc
+AR = xtensa-lx106-elf-ar
+DEFS = -DBUILD_LWIP -DLWIP_OPEN_SRC -DPBUF_RSV_FOR_WLAN -DEBUF_LWIP -DICACHE_FLASH -Dmemset=os_memset -Dstrlen=os_strlen
+COPT = -Os
+CFLAGS = $(DEFS) $(COPT) -Isrc/include -Isrc/include/ipv4 -Wl,-EL -mlongcalls -mtext-section-literals $(CFLAGS_EXTRA)
+# Install prefix of esp-open-sdk toolchain
+PREFIX = ~/toolchain/xtensa-lx106-elf
+
+
+OBJS = \
+src/core/def.o \
+src/core/dhcp.o \
+src/core/dns.o \
+src/core/init.o \
+src/core/mem.o \
+src/core/memp.o \
+src/core/netif.o \
+src/core/pbuf.o \
+src/core/raw.o \
+src/core/sntp.o \
+src/core/stats.o \
+src/core/sys.o \
+src/core/tcp.o \
+src/core/tcp_in.o \
+src/core/tcp_out.o \
+src/core/timers.o \
+src/core/udp.o \
+src/core/ipv4/autoip.o \
+src/core/ipv4/icmp.o \
+src/core/ipv4/igmp.o \
+src/core/ipv4/inet.o \
+src/core/ipv4/inet_chksum.o \
+src/core/ipv4/ip_addr.o \
+src/core/ipv4/ip.o \
+src/core/ipv4/ip_frag.o \
+src/netif/etharp.o \
+\
+src/app/dhcpserver.o \
+\
+espconn_dummy.o \
+
+#src/core/sys_arch.o \
+
+LIB = liblwip_open.a
+
+all: $(LIB)
+
+
+$(LIB): $(OBJS)
+	$(AR) rcs $@ $^
+
+install: $(LIB)
+	cp $(LIB) $(PREFIX)/xtensa-lx106-elf/sysroot/usr/lib/
+
+install-headers: $(LIB)
+	cp -a src/include/lwip $(PREFIX)/xtensa-lx106-elf/sysroot/usr/include/
+	cp -a src/include/ipv4/lwip/* $(PREFIX)/xtensa-lx106-elf/sysroot/usr/include/lwip/
+	cp src/include/lwipopts.h src/include/esp8266_fixups.h $(PREFIX)/xtensa-lx106-elf/sysroot/usr/include/
+#src/include/ip_info.h 
+# src/include/arch/* src/include/netif/* \
+
+
+clean:
+	rm -f $(OBJS)
