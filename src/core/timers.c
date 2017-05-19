@@ -57,6 +57,9 @@
 #include "lwip/igmp.h"
 #include "lwip/dns.h"
 
+#ifdef MEMLEAK_DEBUG
+static const char mem_debug_file[] ICACHE_RODATA_ATTR = __FILE__;
+#endif
 
 /** The one and only timeout list */
 static struct sys_timeo *next_timeout;
