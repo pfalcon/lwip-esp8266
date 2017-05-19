@@ -96,6 +96,7 @@ void   igmp_input(struct pbuf *p, struct netif *inp, ip_addr_t *dest);
 err_t  igmp_joingroup(ip_addr_t *ifaddr, ip_addr_t *groupaddr);
 err_t  igmp_leavegroup(ip_addr_t *ifaddr, ip_addr_t *groupaddr);
 void   igmp_tmr(void);
+#define LWIP_RAND()  r_rand()
 
 #ifdef __cplusplus
 }
