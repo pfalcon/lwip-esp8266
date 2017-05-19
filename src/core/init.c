@@ -267,6 +267,7 @@ lwip_init(void)
   TCP_WND = (4 * TCP_MSS);
   TCP_MAXRTX = 12;
   TCP_SYNMAXRTX = 6;
+  DHCP_MAXRTX = 0;
 
   /* Sanity check user-configurable values */
   lwip_sanity_check();
