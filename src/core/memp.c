@@ -468,3 +468,19 @@ memp_free(memp_t type, void *mem)
 }
 
 #endif /* MEMP_MEM_MALLOC */
+#if 0
+void memp_dump(void)
+{
+	  printf("sizeof raw_pcb %u, memp_s1 %u, %s\n", sizeof(struct raw_pcb), memp_sizes[0], memp_desc[0]);
+	  printf("sizeof udp_pcb %u, memp_s2 %u, %s\n", sizeof(struct udp_pcb), memp_sizes[1], memp_desc[1]);
+	  printf("sizeof tcp_pcb %u, memp_s3 %u, %s\n", sizeof(struct tcp_pcb), memp_sizes[2], memp_desc[2]);
+	  printf("sizeof tcp_pcb_listen %u, memp_s4 %u, %s\n", sizeof(struct tcp_pcb_listen), memp_sizes[3], memp_desc[3]);
+	  printf("sizeof tcp_seg %u, memp_s5 %u, %s\n", sizeof(struct tcp_seg), memp_sizes[4], memp_desc[4]);
+	  printf("sizeof sys_timeo %u, memp_s6 %u, %s\n", sizeof(struct sys_timeo), memp_sizes[5], memp_desc[5]);
+	  printf("sizeof pbuf %u, memp_s7 %u, %s\n", sizeof(struct pbuf), memp_sizes[6], memp_desc[6]);
+	  printf("align pbuf size %u, memp_s8 %u, %s\n", (PBUF_POOL_BUFSIZE), memp_sizes[7], memp_desc[7]);
+	  printf("TCP_MSS %d PBUF_LINK_HLEN %d ETH_PAD_SIZE %d\n", TCP_MSS, PBUF_LINK_HLEN, ETH_PAD_SIZE);
+	  printf("TCP_MSS + PBUF_LINK_HLEN + ETH_PAD_SIZE %d \n", TCP_MSS+PBUF_LINK_HLEN+ETH_PAD_SIZE+40);
+	  printf("sizeof memp_memory_PBUF_pool %u \n", sizeof(memp_memory_PBUF_POOL_base));
+}
+#endif //0000
