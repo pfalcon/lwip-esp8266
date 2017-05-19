@@ -126,7 +126,7 @@ static struct memp *memp_tab[MEMP_MAX];
 #if !MEM_USE_POOLS && !MEMP_MEM_MALLOC
 static
 #endif
-const u16_t memp_sizes[MEMP_MAX] = {
+const u32_t memp_sizes[MEMP_MAX] ICACHE_RODATA_ATTR = {
 #define LWIP_MEMPOOL(name,num,size,desc)  LWIP_MEM_ALIGN_SIZE(size),
 #include "lwip/memp_std.h"
 };
