@@ -582,7 +582,7 @@ void etharp_cleanup_netif(struct netif *netif)
   for (i = 0; i < ARP_TABLE_SIZE; ++i) {
     u8_t state = arp_table[i].state;
     if ((state != ETHARP_STATE_EMPTY) && (arp_table[i].netif == netif)) {
-      etharp_free_entry(i);
+      free_entry(i);
     }
   }
 }
