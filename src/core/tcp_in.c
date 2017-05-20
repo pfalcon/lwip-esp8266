@@ -453,6 +453,8 @@ static err_t
 tcp_listen_input(struct tcp_pcb_listen *pcb)
 {
   struct tcp_pcb *npcb;
+  struct tcp_pcb *pactive_pcb;
+  u8_t active_pcb_num = 0;
   err_t rc;
 
   /* In the LISTEN state, we check for incoming SYN segments,
@@ -472,6 +474,15 @@ tcp_listen_input(struct tcp_pcb_listen *pcb)
       return ERR_ABRT;
     }
 #endif /* TCP_LISTEN_BACKLOG */
+
+    for (pactive_pcb = tcp_active_pcbs; pactive_pcb != NULL; pactive_pcb = pactive_pcb->next)
+      active_pcb_num++;
+    if (active_pcb_num >= MEMP_NUM_TCP_PCB) {
+      LWIP_DEBUGF(TCP_DEBUG, ("tcp_listen_input: exceed the number of active TCP connections\n"));
+      TCP_STATS_INC(tcp.memerr);
+      return ERR_MEM;
+    }
+
     npcb = tcp_alloc(pcb->prio);
     /* If a new PCB could not be created (probably due to lack of memory),
        we don't do anything, but rely on the sender will retransmit the
