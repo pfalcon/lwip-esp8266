@@ -75,10 +75,10 @@ char tcp_state_str[12];
 
 /* Incremented every coarse grained timer shot (typically every 500 ms). */
 u32_t tcp_ticks;
-const u8_t tcp_backoff[13] =
+const u8_t tcp_backoff[13] ICACHE_RODATA_ATTR =
     { 1, 2, 3, 4, 5, 6, 7, 7, 7, 7, 7, 7, 7};
  /* Times per slowtmr hits */
-const u8_t tcp_persist_backoff[7] = { 3, 6, 12, 24, 48, 96, 120 };
+const u8_t tcp_persist_backoff[7] ICACHE_RODATA_ATTR = { 3, 6, 12, 24, 48, 96, 120 };
 
 /* The TCP PCB lists. */
 
@@ -779,7 +779,7 @@ tcp_slowtmr(void)
         /* If snd_wnd is zero, use persist timer to send 1 byte probes
          * instead of using the standard retransmission mechanism. */
         pcb->persist_cnt++;
-        if (pcb->persist_cnt >= tcp_persist_backoff[pcb->persist_backoff-1]) {
+        if (pcb->persist_cnt >= system_get_data_of_array_8(tcp_persist_backoff, pcb->persist_backoff-1)) {
           pcb->persist_cnt = 0;
           if (pcb->persist_backoff < sizeof(tcp_persist_backoff)) {
             pcb->persist_backoff++;
@@ -800,7 +800,7 @@ tcp_slowtmr(void)
           /* Double retransmission time-out unless we are trying to
            * connect to somebody (i.e., we are in SYN_SENT). */
           if (pcb->state != SYN_SENT) {
-            pcb->rto = ((pcb->sa >> 3) + pcb->sv) << tcp_backoff[pcb->nrtx];
+            pcb->rto = ((pcb->sa >> 3) + pcb->sv) << system_get_data_of_array_8(tcp_backoff, pcb->nrtx);
           }
 
           /* Reset the retransmission timer. */
