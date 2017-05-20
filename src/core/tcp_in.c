@@ -408,6 +408,16 @@ aborted:
       pbuf_free(inseg.p);
       inseg.p = NULL;
     }
+
+    /* add processing queue segments that arrive out of order by LiuHan */
+    #if TCP_QUEUE_OOSEQ
+    extern char RxNodeNum(void);
+    if (RxNodeNum() < 2) {
+      extern void pbuf_free_ooseq_new(void* arg);
+      //os_printf("reclaim some memory from queued\n");
+      pbuf_free_ooseq_new(NULL);
+    }
+    #endif
   } else {
 
     /* If no matching PCB was found, send a TCP RST (reset) to the
