@@ -616,9 +616,16 @@ tcp_new_port(void)
   static u16_t port = TCP_LOCAL_PORT_RANGE_START;
   
  again:
+  #if 0
   if (++port > TCP_LOCAL_PORT_RANGE_END) {
     port = TCP_LOCAL_PORT_RANGE_START;
   }
+  #else
+  port = os_random();
+  port %= TCP_LOCAL_PORT_RANGE_END;
+  if (port < TCP_LOCAL_PORT_RANGE_START)
+    port += TCP_LOCAL_PORT_RANGE_START;
+  #endif
   /* Check all PCB lists. */
   for (i = 0; i < NUM_TCP_PCB_LISTS; i++) {  
     for(pcb = *tcp_pcb_lists[i]; pcb != NULL; pcb = pcb->next) {
