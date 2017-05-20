@@ -361,12 +361,12 @@ tcp_abandon(struct tcp_pcb *pcb, int reset)
       tcp_segs_free(pcb->ooseq);
     }
 #endif /* TCP_QUEUE_OOSEQ */
-    memp_free(MEMP_TCP_PCB, pcb);
-    TCP_EVENT_ERR(errf, errf_arg, ERR_ABRT);
     if (reset) {
       LWIP_DEBUGF(TCP_RST_DEBUG, ("tcp_abandon: sending RST\n"));
       tcp_rst(seqno, ackno, &local_ip, &remote_ip, local_port, remote_port);
     }
+    TCP_EVENT_ERR(errf, errf_arg, ERR_ABRT);
+    memp_free(MEMP_TCP_PCB, pcb);
   }
 }
 
@@ -925,11 +925,11 @@ tcp_slowtmr(void)
         tcp_active_pcbs = pcb->next;
       }
 
-      TCP_EVENT_ERR(pcb->errf, pcb->callback_arg, ERR_ABRT);
       if (pcb_reset) {
         tcp_rst(pcb->snd_nxt, pcb->rcv_nxt, &pcb->local_ip, &pcb->remote_ip,
           pcb->local_port, pcb->remote_port);
       }
+      TCP_EVENT_ERR(pcb->errf, pcb->callback_arg, ERR_ABRT);
 
       pcb2 = pcb;
       pcb = pcb->next;
