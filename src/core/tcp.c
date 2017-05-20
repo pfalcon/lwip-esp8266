@@ -55,7 +55,8 @@
 
 #include <string.h>
 
-const char * const tcp_state_str[] = {
+#if TCP_DEBUG
+const char tcp_state_str_rodata[][12] ICACHE_RODATA_ATTR = {
   "CLOSED",      
   "LISTEN",      
   "SYN_SENT",    
@@ -68,6 +69,9 @@ const char * const tcp_state_str[] = {
   "LAST_ACK",    
   "TIME_WAIT"   
 };
+
+char tcp_state_str[12];
+#endif
 
 /* Incremented every coarse grained timer shot (typically every 500 ms). */
 u32_t tcp_ticks;
@@ -1483,11 +1487,14 @@ tcp_eff_send_mss(u16_t sendmss, ip_addr_t *addr)
 }
 #endif /* TCP_CALCULATE_EFF_SEND_MSS */
 
+#if TCP_DEBUG
 const char*
 tcp_debug_state_str(enum tcp_state s)
 {
-  return tcp_state_str[s];
+  system_get_string_from_flash(tcp_state_str_rodata[s], tcp_state_str, 12);
+  return tcp_state_str;
 }
+#endif
 
 #if TCP_DEBUG || TCP_INPUT_DEBUG || TCP_OUTPUT_DEBUG
 /**
